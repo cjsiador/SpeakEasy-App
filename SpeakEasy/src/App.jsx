@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <NavBar/>
-      <LandingComp/>
+      {/* <LandingComp/> */}
       <TranslationComp />
     </>
   )

@@ -17,8 +17,8 @@ function NavBar () {
                         </Button>
                     </Box>
                     <Spacer/>
-                    <ButtonGroup p='2' gap='2' className='nav-bar-right-side' style={{marginTop: '10px'}}>
-                        <Button
+                    <ButtonGroup p='1' gap='1' className='nav-bar-right-side' style={{marginTop: '10px'}}>
+                        {/* <Button
                             fontSize='20px'
                             size='md'
                             height='48px'
@@ -32,7 +32,7 @@ function NavBar () {
                             }}
                         >
                             Sign Up
-                        </Button>
+                        </Button> */}
                         <Button
                             fontSize='20px'
                             size='md'
@@ -45,8 +45,10 @@ function NavBar () {
                                 borderColor: '#ffffff',
                                 opacity: '80%'
                             }}
+                            as="a"
+                            href="https://github.com/cjsiador/SpeakEasy-App"
                         >
-                            Login
+                            Github
                         </Button>
                     </ButtonGroup>
                 </Flex>

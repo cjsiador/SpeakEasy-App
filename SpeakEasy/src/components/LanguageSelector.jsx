@@ -1,3 +1,5 @@
+import { background, Select } from '@chakra-ui/react'
+
 const LANGUAGES = {
     "Acehnese (Arabic script)": "ace_Arab",
     "Acehnese (Latin script)": "ace_Latn",
@@ -206,14 +208,22 @@ const LANGUAGES = {
 }
   
 export default function LanguageSelector({ type, onChange, defaultLanguage }) {
-return (
-    <div className='language-selector'>
-    <label>{type}: </label>
-    <select onChange={onChange} defaultValue={defaultLanguage}>
-        {Object.entries(LANGUAGES).map(([key, value]) => {
-        return <option key={key} value={value}>{key}</option>
-        })}
-    </select>
-    </div>
-)
+    return (
+        <div className='language-selector'>
+            <label style={{color:'white', fontFamily:'Anek Devanagari'}}>{type}: </label>
+            <Select 
+                onChange={onChange} 
+                defaultValue={defaultLanguage}
+                border='4px'
+                borderColor='white'
+                fontSize='16px'
+                color='white'
+                marginTop='10px'
+            >
+                {Object.entries(LANGUAGES).map(([key, value]) => {
+                    return <option style={{ color:'black' }} key={key} value={value}>{key}</option>
+                })}
+            </Select>
+        </div>
+    )
 }
