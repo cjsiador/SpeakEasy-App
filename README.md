@@ -1,7 +1,5 @@
 # SpeakEasy
 
-\[Build status badge\]
-
 Front End application oriented as a translator app that uses ML models.
 
 ## Technologies used
