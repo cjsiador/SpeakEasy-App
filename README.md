@@ -1,6 +1,6 @@
 # SpeakEasy
 
-Front End application oriented as a translator app that uses ML models.
+Front-end application designed as a translator app utilizing machine learning models.
 
 ## Technologies used
 
