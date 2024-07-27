@@ -1,4 +1,4 @@
-# \[SpeakEasy]
+# SpeakEasy
 
 \[Build status badge\]
 
