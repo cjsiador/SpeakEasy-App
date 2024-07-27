@@ -27,6 +27,6 @@ npm run dev
 
 ### Test deployment
 
-The `master` branch deploys to http://my-app.com.
+The `master` branch deploys to [https://easy-speak-app.vercel.app/](https://easy-speak-app.vercel.app/).
 
 ---
