@@ -7,7 +7,7 @@ Front End application oriented as a translator app that uses ML models.
 ## Technologies used
 
 - [React](https://reactjs.org/) single page application
-- Compoonent Libary [Chakra](https://v2.chakra-ui.com/)
+- Component Libary [Chakra](https://v2.chakra-ui.com/)
 - [Transformer.js](https://huggingface.co/docs/transformers.js/en/index) ml model for translations
 
 ## Setup
