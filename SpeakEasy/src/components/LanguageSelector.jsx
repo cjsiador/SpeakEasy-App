@@ -1,4 +1,4 @@
-import { background, Select } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react'
 
 const LANGUAGES = {
     "Acehnese (Arabic script)": "ace_Arab",

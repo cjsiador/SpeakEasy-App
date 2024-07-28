@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import LanguageSelector from './LanguageSelector';
 import ProgressComp from './Progress';
-import { Textarea, Button } from '@chakra-ui/react'
+import { Textarea, Button, Stack, Box, Center, Text } from '@chakra-ui/react'
 import speakEasyLogo from '../assets/logo-no-background.svg'
+import useSpeechToText from '../hooks/useSpeechRecognitionHook'
 
 function TranslationComp() {
     // Model loading
@@ -16,15 +17,27 @@ function TranslationComp() {
     const [targetLanguage, setTargetLanguage] = useState('fra_Latn');
     const [output, setOutput] = useState('');
 
+    // Speech to Text
+    const {isListening, transcript, startListening, stopListening} = useSpeechToText();
+
+    const startStopListening = () => {
+        isListening ? stopVoiceInput() : startListening();
+    }
+
+    const stopVoiceInput = () => {
+        setInput(prevVal => prevVal + (transcript.length ? (prevVal.length ? ' ' : '') + transcript : ''));
+        stopListening();
+    }
+
     // Create a reference to the worker object.
     const worker = useRef(null);
 
     // We use the `useEffect` hook to setup the worker as soon as the `App` component is mounted.
     useEffect(() => {
     if (!worker.current) {
-        // Create the worker if it does not yet exist.
-        worker.current = new Worker(new URL('../worker.js', import.meta.url), {
-        type: 'module'
+            // Create the worker if it does not yet exist.
+            worker.current = new Worker(new URL('../worker.js', import.meta.url), {
+            type: 'module'
         });
     }
 
@@ -81,12 +94,12 @@ function TranslationComp() {
     });
 
     const translate = () => {
-    setDisabled(true);
-    worker.current.postMessage({
-        text: input,
-        src_lang: sourceLanguage,
-        tgt_lang: targetLanguage,
-    });
+        setDisabled(true);
+        worker.current.postMessage({
+            text: input,
+            src_lang: sourceLanguage,
+            tgt_lang: targetLanguage,
+        });
     }
 
     return (
@@ -98,14 +111,15 @@ function TranslationComp() {
                         <LanguageSelector type={"Source"} defaultLanguage={"eng_Latn"} onChange={x => setSourceLanguage(x.target.value)} />
                         <LanguageSelector type={"Target"} defaultLanguage={"fra_Latn"} onChange={x => setTargetLanguage(x.target.value)} />
                     </div>
-
                     <div className='textbox-container'>
                         <Textarea
                             border='4px' 
                             color='white'
-                            value={input} 
+                            disabled={isListening}
+                            value={isListening ? input + (transcript.length ? (input.length ? ' ' : '') + transcript : '') : input} 
                             rows={3} 
-                            onChange={e => setInput(e.target.value)}
+                            onChange={(e) => {setInput(e.target.value)}}
+                            height='220px'
                         ></Textarea>
                         <Textarea 
                             border='4px'
@@ -116,36 +130,67 @@ function TranslationComp() {
                         ></Textarea>
                     </div>
                 </div>
-                <Button
-                    fontSize='20px'
-                    size='md'
-                    height='48px'
-                    width='200px'
-                    border='4px'
-                    borderColor='white'
-                    colorScheme= 'transparent'
-                    _hover={{ 
-                        borderColor: '#ffffff',
-                        opacity: '80%'
-                    }}
-                    disabled={disabled}
-                    onClick={translate}
-                >
-                    Translate
-                </Button>
-
+                <Stack direction ='row' spacing={64} align='center'>
+                    <Button
+                        fontSize='20px'
+                        size='md'
+                        height='48px'
+                        width='200px'
+                        border='4px'
+                        color={isListening ? 'white' : 'white'}
+                        borderColor= {isListening ? 'red' : 'white'}
+                        colorScheme= 'transparent'
+                        _hover={isListening ? 
+                            { 
+                                borderColor: 'red',
+                                opacity: '80%'
+                            } :
+                            {
+                                borderColor: 'white',
+                                opacity: '80%'
+                            }
+                        }
+                        onClick={() => {startStopListening()}}
+                    >
+                        {isListening ? 'Stop Listening' : 'Speak'}
+                    </Button>
+                    <Button
+                        fontSize='20px'
+                        size='md'
+                        height='48px'
+                        width='200px'
+                        border='4px'
+                        borderColor='white'
+                        colorScheme= 'transparent'
+                        _hover={{ 
+                            borderColor: '#ffffff',
+                            opacity: '80%'
+                        }}
+                        disabled={disabled}
+                        onClick={translate}
+                    >
+                        Translate
+                    </Button>
+                </Stack>
                 <div className='progress-bars-container'>
-                    {ready === false}
+                    {ready === false && (
+                        <Center>
+                            <Text color='white' m={4}>
+                                Loading models... (only once)
+                            </Text>
+                        </Center>
+                    )}
                     {progressItems.map(data => (
-                        <div style={{marginTop:'0px'}} key={data.file}>
-                            <ProgressComp text={data.file} percentage={data.progress} />
-                        </div>
+                        <Stack spacing={5}>
+                            <Box border='4px' m={4} borderColor='white' style={{marginTop:'0px'}} key={data.file}>
+                                <ProgressComp text={data.file} percentage={data.progress} />
+                            </Box>
+                        </Stack>
                     ))}
                 </div>
             </div>
         </>
     )
 }
-
 
 export default TranslationComp

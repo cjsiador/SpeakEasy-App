@@ -3,7 +3,6 @@ import speakEasyLogo from '../assets/logo-no-background.svg'
 import { Button } from '@chakra-ui/react'
 
 function LandingComp() {
-
     return(
         <>
             <div className='hero-container'>
@@ -28,7 +27,6 @@ function LandingComp() {
             </div>
         </>
     )
-    
 }
 
 export default LandingComp

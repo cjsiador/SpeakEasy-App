@@ -62,7 +62,7 @@
   justify-content: center;
   gap: 20px;
   width: 100%;
-  max-width: 800px;
+  /* max-width: 800px; */
 }
 
 .textbox-container > textarea, .language-selector {
@@ -116,4 +116,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 90%;
+  max-width: 900px;
 }
